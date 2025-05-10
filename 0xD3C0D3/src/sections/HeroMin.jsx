@@ -74,7 +74,7 @@ const Hero = () => {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <a 
-            href="/0xD3C0D3-site/join" 
+            href="/join" 
             className="px-6 py-3 bg-green-600 hover:bg-green-700 rounded-md text-white font-medium transition-all transform hover:scale-105 shadow-lg shadow-green-600/30 flex items-center justify-center"
         > 
             <FaDiscord className="w-5 h-5 mr-2" />

@@ -7,7 +7,7 @@ import NotFound from './components/404';
 
 function App() {
   return (
-    <Router basename="/0xD3C0D3-site">
+    <Router>
       <Routes>
       
         <Route path="/" element={<LandingSimplified />} />
