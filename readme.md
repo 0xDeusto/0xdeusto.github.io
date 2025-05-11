@@ -31,8 +31,8 @@ Para ejecutar este proyecto
 - Estilos: Exclusivamente con TailwindCSS salvo animaciones o excepciones.
 - Componentes: Reutilizables, nombrados en PascalCase (Ej: MyComponent.jsx).
 - Commits: Estilo simple tipo:
-  - feat: add community section
-  - fix: correct navbar spacing
-  - refactor: split hero section into components
+  - **feat**: add community section
+  - **fix**: correct navbar spacing
+  - **refactor**: split hero section into components
 
 ---
