@@ -7,20 +7,10 @@ import NotFound from './components/404';
 
 function App() {
   return (
-    <Router>
+    <Router basename='/'>
       <Routes>
       
         <Route path="/" element={<LandingSimplified />} />
-
-        
-        <Route 
-          path="/join" 
-          element={<ExternalRedirect 
-                    to="https://discord.gg/B6sdc2yDEP" 
-                    message="Redirigiendo a nuestro Discord..." 
-                  />} 
-        />
-
 
         {/* Ruta 404 */}
         <Route path='*' element={<NotFound/>} />
