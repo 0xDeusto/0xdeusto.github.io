@@ -1,7 +1,6 @@
 // src/App.jsx
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ExternalRedirect from './components/ExternalRedirect';
 import LandingSimplified from './pages/LandingSimplified';
 import NotFound from './components/404';
 
