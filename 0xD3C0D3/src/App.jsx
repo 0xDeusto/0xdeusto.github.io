@@ -2,7 +2,7 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import ExternalRedirect from './components/ExternalRedirect';
+import ExternalRedirect from './components/common/ExternalRedirect';
 import EventsPage from './pages/EventsPage';
 import PartnersPage from './pages/PartnersPage';
 import ContactPage from './pages/ContactPage';
