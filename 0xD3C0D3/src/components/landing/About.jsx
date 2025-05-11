@@ -71,24 +71,23 @@ const About = () => {
               </div>
               <pre className="text-green-500 font-mono text-sm">
                 <code>{`#!/bin/bash
+                # 0xD3C0D3 - Deusto Electronic Club
+                # Welcome script
 
-# 0xD3C0D3 - Deusto Electronic Club
-# Welcome script
+                echo "Initializing 0xD3C0D3 environment..."
+                echo "Loading modules..."
 
-echo "Initializing 0xD3C0D3 environment..."
-echo "Loading modules..."
+                for module in cybersecurity ai linux programming; do
+                  echo "- $module module loaded"
+                  sleep 0.5
+                done
 
-for module in cybersecurity ai linux programming; do
-  echo "- $module module loaded"
-  sleep 0.5
-done
+                echo -e "\\nAll systems ready!"
+                echo "Welcome to 0xD3C0D3 - Where code meets community"
 
-echo -e "\\nAll systems ready!"
-echo "Welcome to 0xD3C0D3 - Where code meets community"
-
-# Join us:
-# discord.gg/0xD3C0D3
-`}</code>
+                # Join us:
+                # discord.gg/0xD3C0D3
+                `}</code>
               </pre>
             </div>
             

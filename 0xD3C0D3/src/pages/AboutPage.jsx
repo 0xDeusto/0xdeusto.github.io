@@ -1,6 +1,6 @@
 import React from 'react';
-import Navbar from '../components/landing/Navbar';
-import Footer from '../components/landing/Footer';
+import Navbar from '../components/common/Navbar';
+import Footer from '../components/common/Footer';
 
 const AboutPage = () => {
   // Array con los miembros del equipo/líderes
