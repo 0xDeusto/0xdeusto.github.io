@@ -14,9 +14,9 @@ const Hero = () => {
     canvas.height = window.innerHeight;
     
     const fontSize = 14;
-    const columns = canvas.width / fontSize;
+    let columns = canvas.width / fontSize;
     
-    const drops = [];
+    let drops = [];
     for (let i = 0; i < columns; i++) {
       drops[i] = 1;
     }
@@ -47,6 +47,8 @@ const Hero = () => {
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      columns = Math.floor(canvas.width / fontSize);
+      drops = Array.from({ length: columns }).map(() => 1);
     };
     
     window.addEventListener('resize', handleResize);
@@ -111,12 +113,14 @@ const Hero = () => {
 
       </div>
 
-      {/* Scroll down indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-        </svg>
-      </div>
+      {/* Scroll down indicator       
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </div>
+      */}
+
 
       {/* Estilos CSS adicionales para el efecto glow en el título */}
       <style jsx>{`
