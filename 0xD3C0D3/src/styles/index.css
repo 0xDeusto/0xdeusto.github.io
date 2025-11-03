@@ -1,7 +1,191 @@
 
-
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap');
 
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-3xl: 125rem;
+  --breakpoint-4xl: 165rem;
+}
+
+
+
+
+/* O añade estas clases en tu componente padre o layout principal */
+.no-horizontal-scroll {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+/* Fuente Terminal Glass TTY VT220 */
+@font-face {
+  font-family: 'Glass TTY VT220';
+  src: url('data:font/woff2;base64,') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback para Glass TTY VT220 */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Fira+Code:wght@400;700&display=swap');
+
 /* Resto de los estilos globales */
+
+/* Estilos para el terminal y efectos cyber */
+.terminal-glow {
+  box-shadow: 0 0 10px rgba(255, 0, 102, 0.5);
+}
+
+.cyber-text {
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 15px currentColor;
+}
+
+/* Scrollbar personalizado para la terminal */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-red-500\/50 {
+  scrollbar-color: rgba(239, 68, 68, 0.5) transparent;
+}
+
+.scrollbar-track-transparent {
+  scrollbar-track-color: transparent;
+}
+
+/* Webkit scrollbar para navegadores compatibles */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(239, 68, 68, 0.5);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(239, 68, 68, 0.8);
+}
+
+/* Transición suave para la sección de cybersecurity */
+.cyber-section-transition {
+  position: relative;
+  z-index: 2;
+}
+
+.cyber-section-transition::before {
+  content: '';
+  position: absolute;
+  top: -10vh;
+  left: 0;
+  right: 0;
+  height: 20vh;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(220, 38, 38, 0.1) 50%,
+    rgba(127, 29, 29, 0.3) 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.cyber-section-transition::after {
+  content: '';
+  position: absolute;
+  bottom: -10vh;
+  left: 0;
+  right: 0;
+  height: 20vh;
+  background: linear-gradient(
+    0deg,
+    transparent 0%,
+    rgba(88, 28, 135, 0.1) 50%,
+    rgba(127, 29, 29, 0.3) 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Animaciones para las esferas de fondo */
+@keyframes float-slow {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1); 
+  }
+  25% { 
+    transform: translate(10px, -20px) scale(1.05); 
+  }
+  50% { 
+    transform: translate(-5px, -10px) scale(0.95); 
+  }
+  75% { 
+    transform: translate(-15px, 5px) scale(1.02); 
+  }
+}
+
+@keyframes float-medium {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1); 
+  }
+  33% { 
+    transform: translate(15px, -15px) scale(1.08); 
+  }
+  66% { 
+    transform: translate(-10px, 10px) scale(0.92); 
+  }
+}
+
+@keyframes float-fast {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1); 
+  }
+  20% { 
+    transform: translate(8px, -12px) scale(1.03); 
+  }
+  40% { 
+    transform: translate(-12px, -8px) scale(0.97); 
+  }
+  60% { 
+    transform: translate(5px, 15px) scale(1.05); 
+  }
+  80% { 
+    transform: translate(-8px, 5px) scale(0.98); 
+  }
+}
+
+@keyframes float-slow-reverse {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1); 
+  }
+  25% { 
+    transform: translate(-10px, 20px) scale(0.95); 
+  }
+  50% { 
+    transform: translate(5px, 10px) scale(1.05); 
+  }
+  75% { 
+    transform: translate(15px, -5px) scale(0.98); 
+  }
+}
+
+.float-slow { 
+  animation: float-slow 20s ease-in-out infinite; 
+}
+
+.float-medium { 
+  animation: float-medium 15s ease-in-out infinite; 
+}
+
+.float-fast { 
+  animation: float-fast 10s ease-in-out infinite; 
+}
+
+.float-slow-reverse { 
+  animation: float-slow-reverse 22s ease-in-out infinite; 
+}

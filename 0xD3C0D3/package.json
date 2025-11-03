@@ -14,10 +14,16 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.6",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "framer-motion": "^12.23.12",
+    "gsap": "^3.13.0",
+    "lucide-react": "^0.540.0",
+    "motion": "^12.23.12",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "react-router-dom": "^7.6.0",
-    "tailwindcss": "^4.1.6"
+    "react-tsparticles": "^2.12.2",
+    "tailwindcss": "^4.1.6",
+    "tsparticles": "^3.9.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
