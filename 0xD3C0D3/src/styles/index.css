@@ -10,8 +10,6 @@
 
 
 
-
-/* O añade estas clases en tu componente padre o layout principal */
 .no-horizontal-scroll {
   overflow-x: hidden;
   max-width: 100vw;

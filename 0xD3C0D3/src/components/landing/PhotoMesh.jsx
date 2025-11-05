@@ -1,20 +1,16 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Importa las imágenes directamente
-// Usamos la API de Vite para importar imágenes
 const collageImages = [];
 
-// Importamos las imágenes de forma dinámica utilizando import.meta.glob
-// Esta es la forma correcta de hacerlo en Vite
 const imageModules = import.meta.glob('../../assets/collage/*.(png|jpg|jpeg|svg)', { eager: true });
 
-// Convertimos los módulos importados en un array de URLs
+
 Object.values(imageModules).forEach(module => {
   collageImages.push(module.default);
 });
 
-// Props para configurar el comportamiento del componente
+
 function PhotoMesh({
   addImageInterval = 4000, // Tiempo entre añadir imágenes (ms)
   removeImageInterval = 2500, // Tiempo entre quitar imágenes (ms)
@@ -74,12 +70,10 @@ const getRandomPosition = (imageCount) => {
 
 
   useEffect(() => {
-  // Usar las imágenes importadas
-  // Para la carga inicial, asumimos un número medio de imágenes
   const expectedCount = Math.floor((minVisibleImages + maxVisibleImages) / 2);
   const loadedImages = collageImages.map((img, i) => ({
     id: i + 1,
-    src: img, // Ya es la ruta correcta importada por webpack
+    src: img,
     ...getRandomPosition(expectedCount)
   }));
   
@@ -100,17 +94,16 @@ useEffect(() => {
 
   // Configurar un único intervalo que refresque todas las imágenes
   const refreshInterval = setInterval(() => {
-    // Seleccionar imágenes aleatorias del conjunto principal
+
     const count = minVisibleImages + Math.floor(Math.random() * (maxVisibleImages - minVisibleImages + 1));
-    
-    // Crear un nuevo array con posiciones aleatorias completamente nuevas
+
     const shuffledImages = [...images]
       .sort(() => Math.random() - 0.5)
       .slice(0, count)
       .map((img) => ({
         ...img,
-        ...getRandomPosition(count), // Pasar la cantidad actual de imágenes
-        instanceId: Date.now() + Math.random() // Garantiza keys únicas
+        ...getRandomPosition(count), 
+        instanceId: Date.now() + Math.random()
       }));
     
     setVisibleImages(shuffledImages);
@@ -155,7 +148,7 @@ useEffect(() => {
         <img
           src={image.src}
           alt={`Collage image ${image.id}`}
-          className="w-full h-full object-cover" // Usa el 100% del contenedor padre
+          className="w-full h-full object-cover" 
           onError={(e) => {
             // Fallback si la imagen no carga
             e.target.src = `/0xD3C0D3-site/collage/fallback.jpeg`;
