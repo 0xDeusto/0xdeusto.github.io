@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Curso de Iniciación git",
+    "date": "12/05/2024",
+    "description": "Aprende los fundamentos de Git y GitHub desde cero",
+    "image": "/0xD3C0D3-site/placeholder-event.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Curso de Iniciación git",
+    "date": "12/05/2024",
+    "description": "Aprende los fundamentos de Git y GitHub desde cero",
+    "image": "/0xD3C0D3-site/placeholder-event.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Curso de Iniciación git",
+    "date": "12/05/2024",
+    "description": "Aprende los fundamentos de Git y GitHub desde cero",
+    "image": "/0xD3C0D3-site/placeholder-event.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Curso de Iniciación git",
+    "date": "12/05/2024",
+    "description": "Aprende los fundamentos de Git y GitHub desde cero",
+    "image": "/0xD3C0D3-site/placeholder-event.jpg"
+  }
+]

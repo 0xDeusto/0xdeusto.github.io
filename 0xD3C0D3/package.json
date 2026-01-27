@@ -23,7 +23,8 @@
     "react-router-dom": "^7.6.0",
     "react-tsparticles": "^2.12.2",
     "tailwindcss": "^4.1.6",
-    "tsparticles": "^3.9.0"
+    "tsparticles": "^3.9.0",
+    "yet-another-react-lightbox": "^3.28.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
