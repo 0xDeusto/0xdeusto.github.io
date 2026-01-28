@@ -5,7 +5,7 @@ import NewLanding2 from './pages/Landing';
 
 function App() {
   return (
-    <Router basename="/0xD3C0D3-site">
+    <Router basename="/">
       <Routes>
         <Route path="/" element={<NewLanding2 />} />
         {/* Ruta 404 */}
