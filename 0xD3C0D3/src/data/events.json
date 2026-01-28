@@ -4,34 +4,34 @@
     "title": "Linux Install Party",
     "date": "2024",
     "description": "Evento de instalación de distribuciones Linux y software libre",
-    "image": "/src/assets/galería/install-party3.jpg"
+    "image": "/assets/galería/install-party3.jpg"
   },
   {
     "id": 2,
     "title": "MidnightFlag Finals",
     "date": "Rennes 2025",
     "description": "Competición final de CTF en Rennes, Francia",
-    "image": "/src/assets/galería/IMG-20250621-WA0008.jpg"
+    "image": "/assets/galería/IMG-20250621-WA0008.jpg"
   },
   {
     "id": 3,
     "title": "Summer School 2025",
     "date": "Verano 2025",
     "description": "Escuela de verano de tecnología y ciberseguridad",
-    "image": "/src/assets/galería/IMG20250624093902.jpg"
+    "image": "/assets/galería/IMG20250624093902.jpg"
   },
   {
     "id": 4,
     "title": "HackUPC 2025",
     "date": "2025",
     "description": "Participación en la hackathon de la UPC Barcelona",
-    "image": "/src/assets/galería/sergio_aitor_pele.jpg"
+    "image": "/assets/galería/sergio_aitor_pele.jpg"
   },
   {
     "id": 5,
     "title": "HPE CSD - 2º Puesto",
     "date": "2025",
     "description": "Segundo puesto en el concurso HPE Cybersecurity Day",
-    "image": "/src/assets/galería/hphack.jpg"
+    "image": "/assets/galería/hphack.jpg"
   }
 ]
