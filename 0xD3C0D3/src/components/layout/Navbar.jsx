@@ -19,8 +19,27 @@ const Navbar = () => {
     { label: 'Home', section: 'hero' },
     { label: 'Sobre Nosotros', section: 'about' },
     { label: 'Eventos', section: 'events' },
+    { label: 'Cursos de Verano', href: '/cursos-de-verano/', external: true },
     { label: 'Contactanos', section: 'contact' }
   ];
+
+  const ExternalIcon = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-3 h-3 inline-block ml-1"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M18 13v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  );
 
   useEffect(() => {
     updateIndicator(activeIndex);
@@ -77,18 +96,36 @@ const Navbar = () => {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8 relative">
-            {navItems.map((item, index) => (
-              <button
-                key={index}
-                ref={(el) => (navItemRefs.current[index] = el)}
-                onClick={() => scrollToSection(item.section, index)}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={handleMouseLeave}
-                className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors duration-200 px-4 py-2 relative z-10"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item, index) => {
+                if(item.external){
+                  return (
+                    <button
+                      key={index}
+                      ref={(el) => (navItemRefs.current[index] = el)}
+                      onClick={() => window.open(item.href, '_blank', 'noopener,noreferrer')}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
+                      className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors duration-200 px-4 py-2 relative z-10"
+                    >
+                      {item.label}
+                      <ExternalIcon />
+                    </button>
+                  );
+                }
+
+                return (<button
+                  key={index}
+                  ref={(el) => (navItemRefs.current[index] = el)}
+                  onClick={() => scrollToSection(item.section, index)}
+                  onMouseEnter={() => handleMouseEnter(index)}
+                  onMouseLeave={handleMouseLeave}
+                  className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors duration-200 px-4 py-2 relative z-10"
+                >
+                  {item.label}
+                </button>
+                );
+              }
+            )}
             
             {/* Sliding indicator */}
             <div
