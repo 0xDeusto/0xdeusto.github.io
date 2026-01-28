@@ -1,12 +1,69 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import logoNav from '../../assets/logonav.png';
 
 const Navbar = () => {
-  const scrollToSection = (sectionId) => {
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+  const navItemRefs = useRef([]);
+
+  const scrollToSection = (sectionId, index) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setActiveIndex(index);
     }
+  };
+
+  const navItems = [
+    { label: 'Home', section: 'hero' },
+    { label: 'Sobre Nosotros', section: 'about' },
+    { label: 'Eventos', section: 'events' },
+    { label: 'Contactanos', section: 'contact' }
+  ];
+
+  useEffect(() => {
+    updateIndicator(activeIndex);
+  }, [activeIndex]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navItems.map(item => document.getElementById(item.section));
+      const scrollPosition = window.scrollY + 100; // offset para detectar mejor
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveIndex(i);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Ejecutar al montar
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [navItems]);
+
+  const updateIndicator = (index) => {
+    const element = navItemRefs.current[index];
+    if (element) {
+      setIndicatorStyle({
+        left: element.offsetLeft,
+        width: element.offsetWidth
+      });
+    }
+  };
+
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index);
+    updateIndicator(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+    updateIndicator(activeIndex);
   };
 
   return (
@@ -19,36 +76,35 @@ const Navbar = () => {
           </div>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={() => scrollToSection('hero')}
-              className="text-green-400 hover:text-green-300 font-mono text-sm transition-all duration-200 border border-green-600 px-4 py-2 hover:bg-green-600 hover:bg-opacity-10"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="text-green-400 hover:text-green-300 font-mono text-sm transition-all duration-200 border border-transparent px-4 py-2 hover:border-green-600 hover:bg-green-600 hover:bg-opacity-10"
-            >
-              Sobre Nosotros
-            </button>
-            <button
-              onClick={() => scrollToSection('events')}
-              className="text-green-400 hover:text-green-300 font-mono text-sm transition-all duration-200 border border-transparent px-4 py-2 hover:border-green-600 hover:bg-green-600 hover:bg-opacity-10"
-            >
-              Eventos
-            </button>
-            <a
-              href="/contacto"
-              className="text-green-400 hover:text-green-300 font-mono text-sm transition-all duration-200 border border-transparent px-4 py-2 hover:border-green-600 hover:bg-green-600 hover:bg-opacity-10"
-            >
-              Contactanos
-            </a>
+          <div className="hidden md:flex items-center space-x-8 relative">
+            {navItems.map((item, index) => (
+              <button
+                key={index}
+                ref={(el) => (navItemRefs.current[index] = el)}
+                onClick={() => scrollToSection(item.section, index)}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
+                className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors duration-200 px-4 py-2 relative z-10"
+              >
+                {item.label}
+              </button>
+            ))}
+            
+            {/* Sliding indicator */}
+            <div
+              className="absolute border-2 border-green-600 transition-all duration-300 ease-out pointer-events-none"
+              style={{
+                left: `${indicatorStyle.left}px`,
+                width: `${indicatorStyle.width}px`,
+                height: '100%',
+                top: 0,
+              }}
+            />
           </div>
 
           {/* Discord Button */}
           <a
-            href="https://discord.gg/your-discord-link"
+            href="https://discord.gg/B6sdc2yDEP"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-2 bg-green-600 hover:bg-green-500 text-black font-mono font-bold px-4 py-2 rounded transition-all duration-300"

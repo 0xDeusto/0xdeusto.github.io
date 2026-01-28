@@ -5,6 +5,7 @@ import AboutSection from "../components/sections/AboutSection";
 import EventsSection from "../components/sections/EventsSection";
 import GallerySection from "../components/sections/GallerySection";
 import SectionEffects from "../components/landing/SectionEffects";
+import Footer from "../components/layout/Footer";
 
 function NewLanding2() {
   const [currentSection, setCurrentSection] = useState(0);
@@ -53,8 +54,11 @@ function NewLanding2() {
           );
         })}
 
+        {/* Footer */}
+        <Footer />
+
         {/* Fondo grid verde retro - extendido a toda la web */}
-        <div className="fixed inset-0 opacity-5 z-0 pointer-events-none">
+        <div className="fixed inset-0 opacity-[0.08] z-0 pointer-events-none">
           <div 
             className="w-full h-full"
             style={{
@@ -68,27 +72,7 @@ function NewLanding2() {
         </div>
       </div>
 
-      {/* Indicador de progreso lateral */}
-      <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-50">
-        <div className="flex flex-col space-y-2">
-          {sections.map((section, index) => (
-            <button
-              key={section.id}
-              onClick={() => {
-                document.getElementById(section.id)?.scrollIntoView({ 
-                  behavior: 'smooth' 
-                });
-              }}
-              className={`w-3 h-3 rounded-full border-2 transition-all duration-300 ${
-                currentSection === index 
-                  ? 'bg-green-400 border-green-400 scale-125' 
-                  : 'bg-transparent border-green-600 hover:border-green-400'
-              }`}
-              title={section.id}
-            />
-          ))}
-        </div>
-      </div>
+
     </div>
   );
 }

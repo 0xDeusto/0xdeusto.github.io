@@ -128,7 +128,7 @@ const HeroSection = () => {
 
       {/* Main content - left aligned */}
       <div className="flex-1 flex items-center z-10 relative pt-20">
-        <div className="max-w-4xl ml-30">
+        <div className="max-w-4xl ml-40">
           {/* ASCII Art */}
           <div className="mb-8">
             <pre className="text-green-400 font-mono text-xs sm:text-sm md:text-base lg:text-xl leading-tight filter drop-shadow-lg">
@@ -147,7 +147,7 @@ const HeroSection = () => {
           {/* Discord Button */}
           <div className="flex">
             <a
-              href="https://discord.gg/your-discord-link"
+              href="https://discord.gg/B6sdc2yDEP"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative px-8 py-4 bg-transparent border-2 border-green-600 text-green-400 font-mono font-bold uppercase tracking-wider hover:bg-green-600 hover:text-black transition-all duration-300 overflow-hidden flex items-center space-x-3"

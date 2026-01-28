@@ -1,30 +1,37 @@
 [
   {
     "id": 1,
-    "title": "Curso de Iniciación git",
-    "date": "12/05/2024",
-    "description": "Aprende los fundamentos de Git y GitHub desde cero",
-    "image": "/0xD3C0D3-site/placeholder-event.jpg"
+    "title": "Linux Install Party",
+    "date": "2024",
+    "description": "Evento de instalación de distribuciones Linux y software libre",
+    "image": "/0xD3C0D3-site/src/assets/galería/install-party3.jpg"
   },
   {
     "id": 2,
-    "title": "Curso de Iniciación git",
-    "date": "12/05/2024",
-    "description": "Aprende los fundamentos de Git y GitHub desde cero",
-    "image": "/0xD3C0D3-site/placeholder-event.jpg"
+    "title": "MidnightFlag Finals",
+    "date": "Rennes 2025",
+    "description": "Competición final de CTF en Rennes, Francia",
+    "image": "/0xD3C0D3-site/src/assets/galería/IMG-20250621-WA0008.jpg"
   },
   {
     "id": 3,
-    "title": "Curso de Iniciación git",
-    "date": "12/05/2024",
-    "description": "Aprende los fundamentos de Git y GitHub desde cero",
-    "image": "/0xD3C0D3-site/placeholder-event.jpg"
+    "title": "Summer School 2025",
+    "date": "Verano 2025",
+    "description": "Escuela de verano de tecnología y ciberseguridad",
+    "image": "/0xD3C0D3-site/src/assets/galería/IMG20250624093902.jpg"
   },
   {
     "id": 4,
-    "title": "Curso de Iniciación git",
-    "date": "12/05/2024",
-    "description": "Aprende los fundamentos de Git y GitHub desde cero",
-    "image": "/0xD3C0D3-site/placeholder-event.jpg"
+    "title": "HackUPC 2025",
+    "date": "2025",
+    "description": "Participación en la hackathon de la UPC Barcelona",
+    "image": "/0xD3C0D3-site/src/assets/galería/sergio_aitor_pele.jpg"
+  },
+  {
+    "id": 5,
+    "title": "HPE CSD - 2º Puesto",
+    "date": "2025",
+    "description": "Segundo puesto en el concurso HPE Cybersecurity Day",
+    "image": "/0xD3C0D3-site/src/assets/galería/hphack.jpg"
   }
 ]
