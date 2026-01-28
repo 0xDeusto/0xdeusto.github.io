@@ -60,7 +60,7 @@ const Footer = () => {
               <span className="text-white">Deusto</span>
             </h3>
             <p className="text-gray-400 font-mono text-sm">
-              Comunidad de ciberseguridad y hacking ético de la Universidad de Deusto
+              Comunidad apasionada por la informática, donde exploramos desde ciberseguridad y CTFs hasta IA y desarrollo de software.
             </p>
           </div>
 

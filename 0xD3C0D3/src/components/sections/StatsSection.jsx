@@ -5,9 +5,11 @@ const StatsSection = () => {
   const sectionRef = useRef(null);
 
   const stats = [
-    { number: 300, label: 'Miembros', suffix: '' },
+    { number: 150, label: 'Miembros', suffix: '' },
     { number: 15, label: 'Eventos Totales', suffix: '' },
-    { number: 5, label: 'Eventos Este año', suffix: '' }
+    { number: 22, label: 'Eventos Este año', suffix: '' },
+
+
   ];
 
   const [counters, setCounters] = useState(stats.map(() => 0));
