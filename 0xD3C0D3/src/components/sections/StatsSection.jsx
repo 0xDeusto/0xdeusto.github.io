@@ -1,18 +1,59 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { API_ENDPOINTS } from '../../config/api';
 
 const StatsSection = () => {
   const [hasAnimated, setHasAnimated] = useState(false);
   const sectionRef = useRef(null);
-
-  const stats = [
+  const [stats, setStats] = useState([
     { number: 150, label: 'Miembros', suffix: '' },
     { number: 15, label: 'Eventos Totales', suffix: '' },
     { number: 22, label: 'Eventos Este año', suffix: '' },
-
-
-  ];
+  ]);
 
   const [counters, setCounters] = useState(stats.map(() => 0));
+
+  // Obtener datos de la API
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [membersRes, eventsRes] = await Promise.all([
+          fetch(API_ENDPOINTS.members),
+          fetch(API_ENDPOINTS.eventsAll)
+        ]);
+
+        if (membersRes.ok && eventsRes.ok) {
+          const membersData = await membersRes.json();
+          const eventsData = await eventsRes.json();
+          
+          const currentYear = new Date().getFullYear();
+          const eventsThisYear = eventsData.events.filter(event => {
+            if (!event.start_time) return false;
+            return new Date(event.start_time).getFullYear() === currentYear;
+          }).length;
+
+          setStats([
+            { number: membersData.member_count, label: 'Miembros', suffix: '' },
+            { number: eventsData.count, label: 'Eventos Totales', suffix: '' },
+            { number: eventsThisYear, label: 'Eventos Este Año', suffix: '' },
+          ]);
+          
+          console.log('Estadísticas cargadas desde la API');
+        } else {
+          console.warn('API no disponible, usando estadísticas locales');
+        }
+      } catch (error) {
+        console.warn('Error conectando con la API, usando estadísticas locales:', error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  useEffect(() => {
+    // Resetear contadores cuando cambien las stats
+    setCounters(stats.map(() => 0));
+    setHasAnimated(false);
+  }, [stats]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

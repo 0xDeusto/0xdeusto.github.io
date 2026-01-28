@@ -1,27 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import eventsData from '../../data/events.json';
+import { API_ENDPOINTS } from '../../config/api';
 
 const EventsSection = () => {
   const [slideIndex, setSlideIndex] = useState(0);
+  const [events, setEvents] = useState(eventsData); // Usar JSON local por defecto
+  const [loading, setLoading] = useState(true);
   const visibleCards = 4; // Número de cards visibles a la vez
+
+  // Obtener eventos de la API
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch(API_ENDPOINTS.eventsAll);
+        if (response.ok) {
+          const data = await response.json();
+          // Transformar datos de la API al formato esperado
+          const formattedEvents = data.events.map(event => ({
+            id: event.id,
+            title: event.name,
+            date: event.start_time ? new Date(event.start_time).toLocaleDateString('es-ES') : event.date || '2025',
+            description: event.description || '',
+            image: event.image_url || event.discord_image_url || 'https://via.placeholder.com/400x300/1a1a1a/22c55e?text=Event'
+          }));
+          setEvents(formattedEvents);
+          console.log('✅ Eventos cargados desde la API');
+        } else {
+          console.warn('⚠️ API no disponible, usando eventos locales');
+        }
+      } catch (error) {
+        console.warn('⚠️ Error conectando con la API, usando eventos locales:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   // Auto-deslizamiento del carrusel
   useEffect(() => {
-    const maxIndex = Math.max(0, eventsData.length - visibleCards);
+    if (events.length === 0) return;
+    const maxIndex = Math.max(0, events.length - visibleCards);
     const interval = setInterval(() => {
       setSlideIndex((prevIndex) => (prevIndex >= maxIndex ? 0 : prevIndex + 1));
     }, 4000); // Cambia cada 4 segundos
 
     return () => clearInterval(interval);
-  }, []);
+  }, [events]);
 
   const nextSlide = () => {
-    const maxIndex = Math.max(0, eventsData.length - visibleCards);
+    const maxIndex = Math.max(0, events.length - visibleCards);
     setSlideIndex((prevIndex) => (prevIndex >= maxIndex ? 0 : prevIndex + 1));
   };
 
   const prevSlide = () => {
-    const maxIndex = Math.max(0, eventsData.length - visibleCards);
+    const maxIndex = Math.max(0, events.length - visibleCards);
     setSlideIndex((prevIndex) => (prevIndex === 0 ? maxIndex : prevIndex - 1));
   };
 
@@ -41,7 +75,7 @@ const EventsSection = () => {
               className="flex transition-transform duration-500 ease-in-out gap-6"
               style={{ transform: `translateX(-${slideIndex * (100 / visibleCards)}%)` }}
             >
-              {eventsData.map((event) => (
+              {events.map((event) => (
                 <div 
                   key={event.id}
                   className="flex-shrink-0 w-[calc(25%-1.125rem)] bg-black bg-opacity-60 border border-green-600 hover:border-green-400 transition-all duration-300 overflow-hidden group"
