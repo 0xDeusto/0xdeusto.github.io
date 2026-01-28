@@ -12,7 +12,7 @@ const HeroSection = () => {
 
   // Cargar ASCII art
   useEffect(() => {
-    fetch('/0xD3C0D3-site/decode-ascii-art.txt')
+    fetch('/decode-ascii-art.txt')
       .then(response => response.text())
       .then(text => setAsciiArt(text))
       .catch(() => {
@@ -22,7 +22,7 @@ const HeroSection = () => {
 
   // Cargar fondo ASCII art
   useEffect(() => {
-    fetch('/0xD3C0D3-site/deusto-background-ascii.txt')
+    fetch('/deusto-background-ascii.txt')
       .then(response => response.text())
       .then(text => setBackgroundAscii(text))
   }, []);
