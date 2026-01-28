@@ -1,6 +1,7 @@
 // Configuración centralizada de la API
 // Cambiar solo esta línea para actualizar el endpoint en toda la aplicación
-export const API_BASE_URL = 'https://api.0xdecode.es/api';
+export const API_DOMAIN = 'https://api.0xdecode.es';
+export const API_BASE_URL = `${API_DOMAIN}/api`;
 
 // Endpoints disponibles
 export const API_ENDPOINTS = {

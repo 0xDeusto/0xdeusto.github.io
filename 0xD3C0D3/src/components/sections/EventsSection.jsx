@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import eventsData from '../../data/events.json';
-import { API_ENDPOINTS } from '../../config/api';
+import { API_ENDPOINTS, API_DOMAIN } from '../../config/api';
 
 const EventsSection = () => {
   const [slideIndex, setSlideIndex] = useState(0);
@@ -16,13 +16,25 @@ const EventsSection = () => {
         if (response.ok) {
           const data = await response.json();
           // Transformar datos de la API al formato esperado
-          const formattedEvents = data.events.map(event => ({
-            id: event.id,
-            title: event.name,
-            date: event.start_time ? new Date(event.start_time).toLocaleDateString('es-ES') : event.date || '2025',
-            description: event.description || '',
-            image: event.image_url || event.discord_image_url || 'https://via.placeholder.com/400x300/1a1a1a/22c55e?text=Event'
-          }));
+          const formattedEvents = data.events.map(event => {
+            // Construir URL completa para imágenes relativas
+            let imageUrl = '/assets/placeholder_event.jpg';
+            if (event.image_url) {
+              imageUrl = event.image_url.startsWith('http') 
+                ? event.image_url 
+                : `${API_DOMAIN}${event.image_url}`;
+            } else if (event.discord_image_url) {
+              imageUrl = event.discord_image_url;
+            }
+
+            return {
+              id: event.id,
+              title: event.name,
+              date: event.start_time ? new Date(event.start_time).toLocaleDateString('es-ES') : event.date || '2025',
+              description: event.description || '',
+              image: imageUrl
+            };
+          });
           setEvents(formattedEvents);
           console.log('✅ Eventos cargados desde la API');
         } else {
@@ -87,7 +99,7 @@ const EventsSection = () => {
                       alt={event.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x300/1a1a1a/22c55e?text=Event+Image';
+                        e.target.src = '/assets/placeholder_event.jpg';
                       }}
                     />
                   </div>
