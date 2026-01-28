@@ -18,7 +18,7 @@ const EventsSection = () => {
           // Transformar datos de la API al formato esperado
           const formattedEvents = data.events.map(event => {
             // Construir URL completa para imágenes relativas
-            let imageUrl = '/assets/placeholder_event.jpg';
+            let imageUrl = '/assets/logonav.jpg';
             if (event.image_url) {
               imageUrl = event.image_url.startsWith('http') 
                 ? event.image_url 
@@ -99,7 +99,7 @@ const EventsSection = () => {
                       alt={event.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       onError={(e) => {
-                        e.target.src = '/assets/placeholder_event.jpg';
+                        e.target.src = '/assets/logonav.jpg';
                       }}
                     />
                   </div>
