@@ -7,7 +7,7 @@ const StatsSection = () => {
   const [stats, setStats] = useState([
     { number: 150, label: 'Miembros', suffix: '' },
     { number: 15, label: 'Eventos Totales', suffix: '' },
-    { number: 22, label: 'Eventos Este año', suffix: '' },
+    { number: 2, label: 'Eventos Este año', suffix: '' },
   ]);
 
   const [counters, setCounters] = useState(stats.map(() => 0));
@@ -37,7 +37,7 @@ const StatsSection = () => {
             { number: eventsThisYear, label: 'Eventos Este Año', suffix: '' },
           ]);
           
-          console.log('Estadísticas cargadas desde la API');
+          console.log('Estadísticas cargadas');
         } else {
           console.warn('API no disponible, usando estadísticas locales');
         }
@@ -56,6 +56,36 @@ const StatsSection = () => {
   }, [stats]);
 
   useEffect(() => {
+    const animateCounters = () => {
+      stats.forEach((stat, index) => {
+        const duration = 2000; // 2 segundos
+        const steps = 60;
+        const increment = stat.number / steps;
+        let current = 0;
+        let step = 0;
+
+        const timer = setInterval(() => {
+          step++;
+          current = Math.min(current + increment, stat.number);
+          
+          setCounters(prev => {
+            const newCounters = [...prev];
+            newCounters[index] = Math.floor(current);
+            return newCounters;
+          });
+
+          if (step >= steps) {
+            clearInterval(timer);
+            setCounters(prev => {
+              const newCounters = [...prev];
+              newCounters[index] = stat.number;
+              return newCounters;
+            });
+          }
+        }, duration / steps);
+      });
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -77,37 +107,7 @@ const StatsSection = () => {
         observer.unobserve(sectionRef.current);
       }
     };
-  }, [hasAnimated]);
-
-  const animateCounters = () => {
-    stats.forEach((stat, index) => {
-      const duration = 2000; // 2 segundos
-      const steps = 60;
-      const increment = stat.number / steps;
-      let current = 0;
-      let step = 0;
-
-      const timer = setInterval(() => {
-        step++;
-        current = Math.min(current + increment, stat.number);
-        
-        setCounters(prev => {
-          const newCounters = [...prev];
-          newCounters[index] = Math.floor(current);
-          return newCounters;
-        });
-
-        if (step >= steps) {
-          clearInterval(timer);
-          setCounters(prev => {
-            const newCounters = [...prev];
-            newCounters[index] = stat.number;
-            return newCounters;
-          });
-        }
-      }, duration / steps);
-    });
-  };
+  }, [hasAnimated, stats]);
 
   return (
     <section ref={sectionRef} className="min-h-screen  relative px-6 py-20 flex flex-col justify-center">

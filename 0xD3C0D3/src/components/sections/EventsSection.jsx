@@ -36,12 +36,12 @@ const EventsSection = () => {
             };
           });
           setEvents(formattedEvents);
-          console.log('✅ Eventos cargados desde la API');
+          console.log('Eventos cargados');
         } else {
-          console.warn('⚠️ API no disponible, usando eventos locales');
+          console.warn('API no disponible, usando eventos locales');
         }
       } catch (error) {
-        console.warn('⚠️ Error conectando con la API, usando eventos locales:', error);
+        console.warn('Error conectando con la API, usando eventos locales:', error);
       } finally {
         setLoading(false);
       }
