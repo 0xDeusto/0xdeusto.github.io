@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import eventsData from '../../data/events.json';
 import { API_ENDPOINTS, API_DOMAIN } from '../../config/api';
+import logoNav from '../../assets/logonav.png';
+
 
 const EventsSection = () => {
   const [slideIndex, setSlideIndex] = useState(0);
@@ -18,7 +20,7 @@ const EventsSection = () => {
           // Transformar datos de la API al formato esperado
           const formattedEvents = data.events.map(event => {
             // Construir URL completa para imágenes relativas
-            let imageUrl = '/assets/logonav.jpg';
+            let imageUrl = logoNav;
             if (event.image_url) {
               imageUrl = event.image_url.startsWith('http') 
                 ? event.image_url 
@@ -99,7 +101,7 @@ const EventsSection = () => {
                       alt={event.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       onError={(e) => {
-                        e.target.src = '/assets/logonav.jpg';
+                        e.target.src = logoNav;
                       }}
                     />
                   </div>
