@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://hjasier.github.io/0xD3C0D3-site",
+  "homepage": "https://0xdeusto.github.io",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
