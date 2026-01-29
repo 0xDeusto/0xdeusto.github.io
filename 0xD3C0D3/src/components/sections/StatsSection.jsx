@@ -18,7 +18,7 @@ const StatsSection = () => {
       try {
         const [membersRes, eventsRes] = await Promise.all([
           fetch(API_ENDPOINTS.members),
-          fetch(API_ENDPOINTS.eventsAll)
+          fetch(API_ENDPOINTS.events)
         ]);
 
         if (membersRes.ok && eventsRes.ok) {

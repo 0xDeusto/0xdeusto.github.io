@@ -33,7 +33,7 @@ const EventsSection = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(API_ENDPOINTS.eventsAll);
+        const response = await fetch(API_ENDPOINTS.events);
         if (response.ok) {
           const data = await response.json();
           // Transformar datos de la API al formato esperado
@@ -101,20 +101,35 @@ const EventsSection = () => {
     setLoadingDetails(true);
     
     try {
-      const response = await fetch(`${API_ENDPOINTS.eventsAll}`);
+      const response = await fetch(`${API_ENDPOINTS.events}`);
       if (response.ok) {
         const data = await response.json();
         const eventDetail = data.events.find(e => e.id === eventId);
         
         if (eventDetail) {
+          // Construir URL completa para la imagen principal
+          let mainImageUrl = logoNav;
+          if (eventDetail.image_url) {
+            mainImageUrl = eventDetail.image_url.startsWith('http') 
+              ? eventDetail.image_url 
+              : `${API_DOMAIN}${eventDetail.image_url}`;
+          } else if (eventDetail.discord_image_url) {
+            mainImageUrl = eventDetail.discord_image_url;
+          }
+
           // Procesar imágenes complementarias
           const complementaryImages = eventDetail.custom_metadata?.complementary_images?.map(img => 
             img.startsWith('http') ? img : `${API_DOMAIN}${img}`
           ) || [];
 
+          // Añadir la imagen principal al final de las complementarias si hay más imágenes
+          const allImages = complementaryImages.length > 0 
+            ? [...complementaryImages, mainImageUrl]
+            : [mainImageUrl];
+
           setEventDetails({
             ...eventDetail,
-            complementaryImages,
+            complementaryImages: allImages,
             extendedDescription: eventDetail.custom_metadata?.extended_description || eventDetail.description,
             tags: eventDetail.custom_metadata?.tags || []
           });
@@ -210,7 +225,7 @@ const EventsSection = () => {
           onClick={closeModal}
         >
           <div 
-            className="bg-black border-2 border-green-600 max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"
+            className="bg-black border-2 border-green-600 max-w-4xl w-full max-h-[90vh] overflow-y-auto relative [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -277,19 +292,43 @@ const EventsSection = () => {
                 {eventDetails.complementaryImages && eventDetails.complementaryImages.length > 0 && (
                   <div className="mb-6">
                     <h4 className="text-xl font-mono font-bold text-green-400 mb-3">Galería</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {eventDetails.complementaryImages.map((img, index) => (
-                        <div key={index} className="border border-green-600 overflow-hidden">
-                          <img 
-                            src={img} 
-                            alt={`${eventDetails.name} - imagen ${index + 1}`}
-                            className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-                            onError={(e) => {
-                              e.target.src = logoNav;
-                            }}
-                          />
+                    <div className="space-y-4">
+                      {/* Imágenes complementarias */}
+                      {eventDetails.complementaryImages.length > 1 && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {eventDetails.complementaryImages.slice(0, -1).map((img, index) => (
+                            <div 
+                              key={index} 
+                              className="border border-green-600 overflow-hidden"
+                            >
+                              <img 
+                                src={img} 
+                                alt={`${eventDetails.name} - imagen ${index + 1}`}
+                                className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
+                                onError={(e) => {
+                                  e.target.src = logoNav;
+                                }}
+                              />
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      )}
+                      
+                      {/* Última imagen (cover) - Centrada y con borde ajustado */}
+                      {eventDetails.complementaryImages.length > 0 && (
+                        <div className="flex justify-center">
+                          <div className="border border-green-600 overflow-hidden inline-block bg-black">
+                            <img 
+                              src={eventDetails.complementaryImages[eventDetails.complementaryImages.length - 1]} 
+                              alt={`${eventDetails.name} - cover`}
+                              className="max-h-96 object-contain hover:scale-105 transition-transform duration-300"
+                              onError={(e) => {
+                                e.target.src = logoNav;
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
