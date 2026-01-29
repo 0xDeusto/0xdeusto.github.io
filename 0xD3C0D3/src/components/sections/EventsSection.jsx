@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import eventsData from '../../data/events.json';
 import { API_ENDPOINTS, API_DOMAIN } from '../../config/api';
 import logoNav from '../../assets/logonav.png';
@@ -183,10 +184,11 @@ const EventsSection = () => {
         </div>
       </div>
 
-      {/* Modal */}
-      {selectedEvent && (
+      {/* Modal usando Portal para renderizar fuera del DOM normal */}
+      {selectedEvent && createPortal(
         <div 
-          className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4"
+          style={{ zIndex: 99999 }}
           onClick={closeModal}
         >
           <div 
@@ -293,7 +295,8 @@ const EventsSection = () => {
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );
