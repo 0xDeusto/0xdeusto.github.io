@@ -81,6 +81,10 @@ Please change the parent <Route path="${C}"> to <Route path="${C==="/"?"*":`${C}
               xl:text-[0.5rem]
               3xl:text-[0.7rem]
               4xl:text-[0.85rem]
+              5xl:text-[1rem]
+              6xl:text-[1.2rem]
+              7xl:text-[1.5rem]
+              8xl:text-[1.8rem]
               leading-none
               filter
               drop-shadow-lg
