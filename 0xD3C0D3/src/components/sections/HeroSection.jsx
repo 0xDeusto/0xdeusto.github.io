@@ -104,13 +104,17 @@ const HeroSection = () => {
             className="
               text-green-400
               font-mono
-              text-[0.20rem]
+              text-[0.20rem] 
               sm:text-[0.3rem]
               md:text-[0.35rem]
               lg:text-[0.4rem]
               xl:text-[0.5rem]
               3xl:text-[0.7rem]
               4xl:text-[0.85rem]
+              5xl:text-[1rem]
+              6xl:text-[1.2rem]
+              7xl:text-[1.5rem]
+              8xl:text-[1.8rem]
               leading-none
               filter
               drop-shadow-lg
@@ -126,12 +130,19 @@ const HeroSection = () => {
         </div>
       )}
 
-      {/* Main content - left aligned */}
+      {/* Main content - a la izqueirda */}
       <div className="flex-1 flex items-center z-10 relative pt-20">
-        <div className="max-w-4xl ml-40">
+        <div className="max-w-4xl 
+        sm:ml-40">
           {/* ASCII Art */}
           <div className="mb-8">
-            <pre className="text-green-400 font-mono text-xs sm:text-sm md:text-base lg:text-xl leading-tight filter drop-shadow-lg">
+            <pre className="text-green-400 font-mono 
+            text-[0.5rem]
+            sm:text-sm 
+            md:text-base 
+            lg:text-xl 
+            
+            leading-tight filter drop-shadow-lg">
               {asciiArt}
             </pre>
           </div>
@@ -168,18 +179,20 @@ const HeroSection = () => {
 
 
       {/* Elementos flotantes con información */}
-      <div className="absolute top-24 left-10 text-green-600 font-mono text-xs opacity-60 animate-bounce">
+      {/* <div className="absolute top-24 left-10 text-green-600 font-mono text-xs opacity-60 animate-bounce hidden sm:block">
         [CYBERSECURITY_MODULE_ACTIVE]
       </div>
-      <div className="absolute top-36 right-16 text-green-600 font-mono text-xs opacity-60 animate-bounce" style={{animationDelay: '1s'}}>
+      <div className="absolute top-36 right-16 text-green-600 font-mono text-xs opacity-60 animate-bounce hidden sm:block" style={{animationDelay: '1s'}}>
         [AI_NEURAL_NETWORKS_ONLINE]
       </div>
-      <div className="absolute bottom-32 left-20 text-green-600 font-mono text-xs opacity-60 animate-bounce" style={{animationDelay: '2s'}}>
+      <div className="absolute bottom-32 left-20 text-green-600 font-mono text-xs opacity-60 animate-bounce hidden sm:block" style={{animationDelay: '2s'}}>
         [LINUX_TERMINALS_READY]
       </div>
-      <div className="absolute bottom-40 right-20 text-green-600 font-mono text-xs opacity-60 animate-bounce" style={{animationDelay: '3s'}}>
+      <div className="absolute bottom-40 right-20 text-green-600 font-mono text-xs opacity-60 animate-bounce hidden sm:block" style={{animationDelay: '3s'}}>
         [DEVELOPMENT_STACK_LOADED]
-      </div>
+      </div> */}
+
+
 
       {/* Efectos de partículas adicionales */}
       <div className="absolute inset-0 pointer-events-none opacity-30">

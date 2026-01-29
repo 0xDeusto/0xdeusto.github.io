@@ -23,6 +23,10 @@ export default {
       screens: {
         '3xl': '1920px',
         '4xl': '2560px',
+        '5xl': '3200px',
+        '6xl': '3840px',
+        '7xl': '4480px',
+        '8xl': '5120px'
       }
     },
   },

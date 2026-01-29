@@ -12,7 +12,22 @@ const EventsSection = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventDetails, setEventDetails] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
-  const visibleCards = 4; // Número de cards visibles a la vez
+  const [visibleCards, setVisibleCards] = useState(4); // Número de cards visibles a la vez
+
+  // Detectar el número de cards visibles según el tamaño de pantalla
+  useEffect(() => {
+    const updateVisibleCards = () => {
+      if (window.innerWidth < 640) {
+        setVisibleCards(1); // Móvil: 1 card
+      } else {
+        setVisibleCards(4); // Desktop: 4 cards
+      }
+    };
+
+    updateVisibleCards();
+    window.addEventListener('resize', updateVisibleCards);
+    return () => window.removeEventListener('resize', updateVisibleCards);
+  }, []);
 
   // Obtener eventos de la API
   useEffect(() => {
@@ -38,10 +53,13 @@ const EventsSection = () => {
               title: event.name,
               date: event.start_time ? new Date(event.start_time).toLocaleDateString('es-ES') : event.date || '2025',
               description: event.description || '',
-              image: imageUrl
+              image: imageUrl,
+              timestamp: event.start_time ? new Date(event.start_time).getTime() : 0
             };
           });
-          setEvents(formattedEvents);
+          // Ordenar eventos por fecha (más recientes primero)
+          const sortedEvents = formattedEvents.sort((a, b) => b.timestamp - a.timestamp);
+          setEvents(sortedEvents);
           console.log('Eventos cargados');
         } else {
           console.warn('API no disponible, usando eventos locales');
@@ -134,7 +152,7 @@ const EventsSection = () => {
               {events.map((event) => (
                 <div 
                   key={event.id}
-                  className="flex-shrink-0 w-[calc(25%-1.125rem)] bg-black bg-opacity-60 border border-green-600 hover:border-green-400 transition-all duration-300 overflow-hidden group"
+                  className="flex-shrink-0 w-[calc(80%-1.125rem)]  sm:w-[calc(25%-1.125rem)] bg-black bg-opacity-60 border border-green-600 hover:border-green-400 transition-all duration-300 overflow-hidden group"
                 >
                   {/* Event Image */}
                   <div className="relative h-48 overflow-hidden bg-gray-900">

@@ -6,6 +6,7 @@ const GallerySection = () => {
   const [open, setOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [visibleCards, setVisibleCards] = useState(5);
 
   // Cargar automáticamente todas las imágenes de la carpeta galería
   const images = useMemo(() => {
@@ -16,14 +17,31 @@ const GallerySection = () => {
     }));
   }, []);
 
+  // Detectar el número de cards visibles según el tamaño de pantalla
+  useEffect(() => {
+    const updateVisibleCards = () => {
+      if (window.innerWidth < 640) {
+        setVisibleCards(1); // Móvil: 1 card
+      } else {
+        setVisibleCards(5); // Desktop: 5 cards
+      }
+    };
+
+    updateVisibleCards();
+    window.addEventListener('resize', updateVisibleCards);
+    return () => window.removeEventListener('resize', updateVisibleCards);
+  }, []);
+
   // Auto-deslizamiento del carrusel
   useEffect(() => {
+    if (images.length === 0) return;
+    const maxIndex = Math.max(0, images.length - visibleCards);
     const interval = setInterval(() => {
-      setSlideIndex((prevIndex) => (prevIndex + 1) % Math.max(1, images.length - 4));
+      setSlideIndex((prevIndex) => (prevIndex >= maxIndex ? 0 : prevIndex + 1));
     }, 3000); // Cambia cada 3 segundos
 
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [images.length, visibleCards]);
 
   const openLightbox = (index) => {
     setCurrentIndex(index);
@@ -31,13 +49,13 @@ const GallerySection = () => {
   };
 
   const nextSlide = () => {
-    setSlideIndex((prevIndex) => (prevIndex + 1) % Math.max(1, images.length - 4));
+    const maxIndex = Math.max(0, images.length - visibleCards);
+    setSlideIndex((prevIndex) => (prevIndex >= maxIndex ? 0 : prevIndex + 1));
   };
 
   const prevSlide = () => {
-    setSlideIndex((prevIndex) => 
-      prevIndex === 0 ? Math.max(0, images.length - 5) : prevIndex - 1
-    );
+    const maxIndex = Math.max(0, images.length - visibleCards);
+    setSlideIndex((prevIndex) => (prevIndex === 0 ? maxIndex : prevIndex - 1));
   };
 
   return (
@@ -54,12 +72,12 @@ const GallerySection = () => {
           <div className="overflow-hidden">
             <div 
               className="flex transition-transform duration-500 ease-in-out gap-4"
-              style={{ transform: `translateX(-${slideIndex * (100 / 5)}%)` }}
+              style={{ transform: `translateX(-${slideIndex * (100 / visibleCards)}%)` }}
             >
               {images.map((image, index) => (
                 <div
                   key={index}
-                  className="relative flex-shrink-0 w-[calc(20%-0.8rem)] aspect-square overflow-hidden border border-green-600 hover:border-green-400 transition-all duration-300 cursor-pointer group"
+                  className="relative flex-shrink-0 w-[calc(80%-0.8rem)] sm:w-[calc(20%-0.8rem)] aspect-square overflow-hidden border border-green-600 hover:border-green-400 transition-all duration-300 cursor-pointer group"
                   onClick={() => openLightbox(index)}
                 >
                   <img
