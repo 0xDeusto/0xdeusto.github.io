@@ -10,7 +10,7 @@ const GallerySection = () => {
 
   // Cargar automáticamente todas las imágenes de la carpeta galería
   const images = useMemo(() => {
-    const imageModules = import.meta.glob('../../assets/galería/*.{jpg,jpeg,png,gif}', { eager: true });
+    const imageModules = import.meta.glob('../../assets/galería/*.{jpg,jpeg,png,gif,webp}', { eager: true });
     return Object.entries(imageModules).map(([path, module]) => ({
       src: module.default,
       alt: `0xDeusto - ${path.split('/').pop().split('.')[0]}`
