@@ -191,7 +191,7 @@ const EventsSection = () => {
                     </p>
                     <button 
                       onClick={() => openEventModal(event.id)}
-                      className="w-full bg-transparent border border-green-600 text-green-400 font-mono px-4 py-2 hover:bg-green-600 hover:text-black transition-all duration-300"
+                      className="w-full bg-transparent border border-green-600 text-green-400 font-mono px-4 py-2 hover:bg-green-600 hover:text-black transition-all duration-300 cursor-pointer"
                     >
                       Saber más
                     </button>

@@ -105,7 +105,7 @@ const Navbar = () => {
                       onClick={() => window.open(item.href, '_blank', 'noopener,noreferrer')}
                       onMouseEnter={() => handleMouseEnter(index)}
                       onMouseLeave={handleMouseLeave}
-                      className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors duration-200 px-4 py-2 relative z-10"
+                      className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors duration-200 px-4 py-2 relative z-10 cursor-pointer"
                     >
                       {item.label}
                       <ExternalIcon />
@@ -119,7 +119,7 @@ const Navbar = () => {
                   onClick={() => scrollToSection(item.section, index)}
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave}
-                  className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors duration-200 px-4 py-2 relative z-10"
+                  className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors duration-200 px-4 py-2 relative z-10 cursor-pointer"
                 >
                   {item.label}
                 </button>
