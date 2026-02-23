@@ -13,7 +13,7 @@ const GallerySection = () => {
     const imageModules = import.meta.glob('../../assets/galería/*.{jpg,jpeg,png,gif,webp}', { eager: true });
     return Object.entries(imageModules).map(([path, module]) => ({
       src: module.default,
-      alt: `0xDeusto - ${path.split('/').pop().split('.')[0]}`
+      alt: `0xDecode - ${path.split('/').pop().split('.')[0]}`
     }));
   }, []);
 
@@ -70,7 +70,7 @@ const GallerySection = () => {
         <div className="relative mb-12">
           {/* Carousel */}
           <div className="overflow-hidden">
-            <div 
+            <div
               className="flex transition-transform duration-500 ease-in-out gap-4"
               style={{ transform: `translateX(-${slideIndex * (100 / visibleCards)}%)` }}
             >

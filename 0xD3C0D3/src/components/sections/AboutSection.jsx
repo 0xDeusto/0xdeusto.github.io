@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 const AboutSection = () => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const fullText = `> Somos una asociación estudiantil de la Universidad de Deusto formada por entusiastas de la informática y la tecnología. Nuestro objetivo es crear un espacio donde los estudiantes puedan expandir sus conocimientos más allá del aula, explorar nuevas tecnologías y desarrollar habilidades prácticas en un entorno colaborativo.`;
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const AboutSection = () => {
             <div className="w-3 h-3 rounded-full bg-red-500"></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            <span className="ml-2 text-gray-500 text-sm font-mono">0xDeusto@terminal:~$</span>
+            <span className="ml-2 text-gray-500 text-sm font-mono">0xDecode@terminal:~$</span>
           </div>
           <div className="font-mono text-green-400 text-base md:text-lg leading-relaxed">
             {displayedText}
