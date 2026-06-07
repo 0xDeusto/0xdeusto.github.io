@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { API_ENDPOINTS } from '../../config/api';
+import { API_ENDPOINTS, API_DOMAIN } from '../../config/api';
+
+const resolveImageUrl = (url) => {
+  if (!url) return url;
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  if (url.startsWith('/')) return `${API_DOMAIN}${url}`;
+  return url;
+};
 
 const EventAnnouncement = () => {
   const [announcement, setAnnouncement] = useState(null);
@@ -35,10 +42,9 @@ const EventAnnouncement = () => {
     fetchAnnouncement();
   }, []);
 
-  const eventDate = announcement?.event_date ? new Date(announcement.event_date) : null;
-
   useEffect(() => {
-    if (!isVisible || !eventDate) return;
+    if (!isVisible || !announcement?.event_date) return;
+    const eventDate = new Date(announcement.event_date);
     const calculateTimeLeft = () => {
       const now = new Date();
       const difference = eventDate - now;
@@ -55,7 +61,7 @@ const EventAnnouncement = () => {
     setTimeLeft(calculateTimeLeft());
     const timer = setInterval(() => setTimeLeft(calculateTimeLeft()), 1000);
     return () => clearInterval(timer);
-  }, [isVisible, eventDate]);
+  }, [isVisible, announcement?.event_date]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -80,8 +86,10 @@ const EventAnnouncement = () => {
   if (loading) return null;
   if (!announcement) return null;
 
-  const mainImage = announcement.images?.[0];
-  const galleryImages = announcement.images?.slice(1) || [];
+  const eventDate = announcement?.event_date ? new Date(announcement.event_date) : null;
+  const allImages = (announcement.images || []).map(resolveImageUrl);
+  const mainImage = allImages[0];
+  const galleryImages = allImages;
 
   return (
     <>
@@ -192,7 +200,7 @@ const EventAnnouncement = () => {
                           >
                             <img
                               src={src}
-                              alt={`${announcement.title} ${idx + 2}`}
+                              alt={`${announcement.title} ${idx + 1}`}
                               className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity"
                               draggable={false}
                             />

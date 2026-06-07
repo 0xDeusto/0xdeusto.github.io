@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
+const fullText = `> Somos una asociación estudiantil de la Universidad de Deusto formada por entusiastas de la informática y la tecnología. Nuestro objetivo es crear un espacio donde los estudiantes puedan expandir sus conocimientos más allá del aula, explorar nuevas tecnologías y desarrollar habilidades prácticas en un entorno colaborativo.`;
+
 const AboutSection = () => {
   const [displayedText, setDisplayedText] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const fullText = `> Somos una asociación estudiantil de la Universidad de Deusto formada por entusiastas de la informática y la tecnología. Nuestro objetivo es crear un espacio donde los estudiantes puedan expandir sus conocimientos más allá del aula, explorar nuevas tecnologías y desarrollar habilidades prácticas en un entorno colaborativo.`;
-
   useEffect(() => {
-    if (currentIndex < fullText.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText(prev => prev + fullText[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, 20);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, fullText]);
+    if (currentIndex >= fullText.length) return;
+    const timeout = setTimeout(() => {
+      setDisplayedText(prev => prev + fullText[currentIndex]);
+      setCurrentIndex(prev => prev + 1);
+    }, 20);
+    return () => clearTimeout(timeout);
+  }, [currentIndex]);
 
   const areas = [
     {

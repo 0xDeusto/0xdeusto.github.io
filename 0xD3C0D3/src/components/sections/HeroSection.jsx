@@ -6,8 +6,8 @@ import decodeAsciiSvg from '../../assets/ascii-art.svg';
 const HeroSection = () => {
   const heroRef = useRef(null);
   const asciiBgRef = useRef(null);
-  const [asciiOffset, setAsciiOffset] = useState({ x: 0, y: 0 });
   const targetOffset = useRef({ x: 0, y: 0 });
+  const currentOffset = useRef({ x: 0, y: 0 });
   const [asciiArt, setAsciiArt] = useState('');
   const [backgroundAsccii, setBackgroundAscii] = useState('');
   const [heroHeight, setHeroHeight] = useState('100vh');
@@ -49,14 +49,14 @@ const HeroSection = () => {
     }
   }, []);
 
-  // Movimiento del fondo ASCII con el mouse
+  // Movimiento del fondo ASCII con el mouse (actualiza style directamente, sin setState)
   useEffect(() => {
     const handleMouseMove = (e) => {
       const { innerWidth, innerHeight } = window;
       const normX = ((e.clientX / innerWidth) - 0.5) * 2;
       const normY = ((e.clientY / innerHeight) - 0.5) * 2;
       targetOffset.current = {
-        x: -normX * 30, 
+        x: -normX * 30,
         y: -normY * 7
       };
     };
@@ -65,13 +65,13 @@ const HeroSection = () => {
     let animationFrame;
     const lerp = (a, b, t) => a + (b - a) * t;
     const animate = () => {
-      setAsciiOffset(prev => {
-        const next = {
-          x: lerp(prev.x, targetOffset.current.x, 0.38),
-          y: lerp(prev.y, targetOffset.current.y, 0.38)
-        };
-        return next;
-      });
+      currentOffset.current = {
+        x: lerp(currentOffset.current.x, targetOffset.current.x, 0.38),
+        y: lerp(currentOffset.current.y, targetOffset.current.y, 0.38)
+      };
+      if (asciiBgRef.current) {
+        asciiBgRef.current.style.transform = `translate(${currentOffset.current.x}px, ${currentOffset.current.y}px)`;
+      }
       animationFrame = requestAnimationFrame(animate);
     };
     animate();
@@ -134,7 +134,6 @@ const HeroSection = () => {
               opacity-30
             "
             style={{
-              transform: `translate(${asciiOffset.x}px, ${asciiOffset.y}px)`,
               transition: 'transform 0.3s cubic-bezier(0.4,0,0.2,1)'
             }}
           >
