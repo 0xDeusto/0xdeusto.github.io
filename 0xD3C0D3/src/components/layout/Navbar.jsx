@@ -21,7 +21,7 @@ const Navbar = () => {
     { label: 'Home', section: 'hero' },
     { label: 'Sobre Nosotros', section: 'about' },
     { label: 'Eventos', section: 'events' },
-    { label: 'Cursos de Verano', href: '/cursos-de-verano/', external: true },
+    { label: 'Summer School', href: '/cursos-de-verano/', external: true },
     { label: 'Contactanos', mailto: '0xdecode@tutamail.com' }
   ];
 
