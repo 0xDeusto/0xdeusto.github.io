@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import Navbar from '../layout/Navbar';
+import decodeAsciiSvg from '../../assets/ascii-art.svg';
 
 const HeroSection = () => {
   const heroRef = useRef(null);
@@ -134,14 +135,20 @@ const HeroSection = () => {
       <div className="flex-1 flex items-center z-10 relative pt-20">
         <div className="max-w-4xl 
         sm:ml-40">
-          {/* ASCII Art */}
+          {/* ASCII Art / Imagen móvil */}
           <div className="mb-8">
-            <pre className="text-green-400 font-mono 
-            text-[0.5rem]
-            sm:text-sm 
+            {/* Imagen en móvil (< sm) */}
+            <img
+              src={decodeAsciiSvg}
+              alt="0xDecode ASCII"
+              className="block sm:hidden w-full max-w-md mx-auto drop-shadow-lg"
+              draggable={false}
+            />
+            {/* Texto ASCII en desktop (sm en adelante) */}
+            <pre className="hidden sm:block text-green-400 font-mono 
+            text-sm 
             md:text-base 
             lg:text-xl 
-            
             leading-tight filter drop-shadow-lg">
               {asciiArt}
             </pre>

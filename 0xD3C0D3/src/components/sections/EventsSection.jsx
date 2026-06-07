@@ -1,29 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import eventsData from '../../data/events.json';
 import { API_ENDPOINTS, API_DOMAIN } from '../../config/api';
 import logoNav from '../../assets/logonav.png';
 
+
 const EventsSection = () => {
-  const [events, setEvents] = useState(eventsData);
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [events, setEvents] = useState(eventsData); // Usar JSON local por defecto
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [eventDetails, setEventDetails] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(false);
-  const [visibleCards, setVisibleCards] = useState(4);
-  const [userInteracted, setUserInteracted] = useState(false);
+  const [visibleCards, setVisibleCards] = useState(4); // Número de cards visibles a la vez
 
-  const scrollContainerRef = useRef(null);
-
-  // Detectar número de cards visibles según pantalla
+  // Detectar el número de cards visibles según el tamaño de pantalla
   useEffect(() => {
     const updateVisibleCards = () => {
       if (window.innerWidth < 640) {
-        setVisibleCards(1);
+        setVisibleCards(1); // Móvil: 1 card
       } else {
-        setVisibleCards(4);
+        setVisibleCards(4); // Desktop: 4 cards
       }
     };
+
     updateVisibleCards();
     window.addEventListener('resize', updateVisibleCards);
     return () => window.removeEventListener('resize', updateVisibleCards);
@@ -36,15 +36,18 @@ const EventsSection = () => {
         const response = await fetch(API_ENDPOINTS.events);
         if (response.ok) {
           const data = await response.json();
+          // Transformar datos de la API al formato esperado
           const formattedEvents = data.events.map(event => {
+            // Construir URL completa para imágenes relativas
             let imageUrl = logoNav;
             if (event.image_url) {
-              imageUrl = event.image_url.startsWith('http')
-                ? event.image_url
+              imageUrl = event.image_url.startsWith('http') 
+                ? event.image_url 
                 : `${API_DOMAIN}${event.image_url}`;
             } else if (event.discord_image_url) {
               imageUrl = event.discord_image_url;
             }
+
             return {
               id: event.id,
               title: event.name,
@@ -54,8 +57,10 @@ const EventsSection = () => {
               timestamp: event.start_time ? new Date(event.start_time).getTime() : 0
             };
           });
+          // Ordenar eventos por fecha (más recientes primero)
           const sortedEvents = formattedEvents.sort((a, b) => b.timestamp - a.timestamp);
           setEvents(sortedEvents);
+          console.log('Eventos cargados');
         } else {
           console.warn('API no disponible, usando eventos locales');
         }
@@ -65,82 +70,63 @@ const EventsSection = () => {
         setLoading(false);
       }
     };
+
     fetchEvents();
   }, []);
 
-  // Auto-slide: avanza cada 4s hasta que el usuario interactúe
+  // Auto-deslizamiento del carrusel
   useEffect(() => {
-    if (events.length === 0 || userInteracted) return;
-
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
+    if (events.length === 0) return;
+    const maxIndex = Math.max(0, events.length - visibleCards);
     const interval = setInterval(() => {
-      const firstCard = container.querySelector('[data-event-card]');
-      if (!firstCard) return;
-      const cardWidth = firstCard.offsetWidth + 24;
-      const maxScroll = container.scrollWidth - container.offsetWidth;
-
-      if (container.scrollLeft >= maxScroll - 5) {
-        container.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        container.scrollBy({ left: cardWidth, behavior: 'smooth' });
-      }
-    }, 4000);
+      setSlideIndex((prevIndex) => (prevIndex >= maxIndex ? 0 : prevIndex + 1));
+    }, 4000); // Cambia cada 4 segundos
 
     return () => clearInterval(interval);
-  }, [events, userInteracted, visibleCards]);
-
-  const handleUserInteraction = () => {
-    setUserInteracted(true);
-  };
-
-  const getCardWidth = () => {
-    const container = scrollContainerRef.current;
-    if (!container) return 300;
-    const firstCard = container.querySelector('[data-event-card]');
-    if (!firstCard) return 300;
-    return firstCard.offsetWidth + 24;
-  };
+  }, [events]);
 
   const nextSlide = () => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    container.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
-    setUserInteracted(true);
+    const maxIndex = Math.max(0, events.length - visibleCards);
+    setSlideIndex((prevIndex) => (prevIndex >= maxIndex ? 0 : prevIndex + 1));
   };
 
   const prevSlide = () => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-    container.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
-    setUserInteracted(true);
+    const maxIndex = Math.max(0, events.length - visibleCards);
+    setSlideIndex((prevIndex) => (prevIndex === 0 ? maxIndex : prevIndex - 1));
   };
 
-  // Abrir modal
+  // Función para abrir el modal y cargar detalles del evento
   const openEventModal = async (eventId) => {
     setSelectedEvent(eventId);
     setLoadingDetails(true);
+    
     try {
       const response = await fetch(`${API_ENDPOINTS.events}`);
       if (response.ok) {
         const data = await response.json();
         const eventDetail = data.events.find(e => e.id === eventId);
+        
         if (eventDetail) {
+          // Construir URL completa para la imagen principal
           let mainImageUrl = logoNav;
           if (eventDetail.image_url) {
-            mainImageUrl = eventDetail.image_url.startsWith('http')
-              ? eventDetail.image_url
+            mainImageUrl = eventDetail.image_url.startsWith('http') 
+              ? eventDetail.image_url 
               : `${API_DOMAIN}${eventDetail.image_url}`;
           } else if (eventDetail.discord_image_url) {
             mainImageUrl = eventDetail.discord_image_url;
           }
-          const complementaryImages = eventDetail.custom_metadata?.complementary_images?.map(img =>
+
+          // Procesar imágenes complementarias
+          const complementaryImages = eventDetail.custom_metadata?.complementary_images?.map(img => 
             img.startsWith('http') ? img : `${API_DOMAIN}${img}`
           ) || [];
-          const allImages = complementaryImages.length > 0
+
+          // Añadir la imagen principal al final de las complementarias si hay más imágenes
+          const allImages = complementaryImages.length > 0 
             ? [...complementaryImages, mainImageUrl]
             : [mainImageUrl];
+
           setEventDetails({
             ...eventDetail,
             complementaryImages: allImages,
@@ -156,6 +142,7 @@ const EventsSection = () => {
     }
   };
 
+  // Función para cerrar el modal
   const closeModal = () => {
     setSelectedEvent(null);
     setEventDetails(null);
@@ -171,88 +158,73 @@ const EventsSection = () => {
 
         {/* Carousel Container */}
         <div className="relative">
-          {/* Scrollable Track */}
-          <div
-            ref={scrollContainerRef}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-4 select-none cursor-grab active:cursor-grabbing"
-            onScroll={handleUserInteraction}
-            onTouchStart={handleUserInteraction}
-            onMouseDown={handleUserInteraction}
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch',
-            }}
-          >
-            {events.map((event) => (
-              <div
-                key={event.id}
-                data-event-card
-                className="snap-start flex-shrink-0 w-[85%] sm:w-[calc(25%-1.125rem)] bg-black bg-opacity-60 border border-green-600 hover:border-green-400 transition-all duration-300 overflow-hidden group"
-              >
-                {/* Event Image */}
-                <div className="relative h-48 overflow-hidden bg-gray-900">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300 pointer-events-none"
-                    draggable={false}
-                    onError={(e) => {
-                      e.target.src = logoNav;
-                    }}
-                  />
-                </div>
+          {/* Events Carousel */}
+          <div className="overflow-hidden">
+            <div 
+              className="flex transition-transform duration-500 ease-in-out gap-6"
+              style={{ transform: `translateX(-${slideIndex * (100 / visibleCards)}%)` }}
+            >
+              {events.map((event) => (
+                <div 
+                  key={event.id}
+                  className="flex-shrink-0 w-[calc(80%-1.125rem)]  sm:w-[calc(25%-1.125rem)] bg-black bg-opacity-60 border border-green-600 hover:border-green-400 transition-all duration-300 overflow-hidden group"
+                >
+                  {/* Event Image */}
+                  <div className="relative h-48 overflow-hidden bg-gray-900">
+                    <img 
+                      src={event.image} 
+                      alt={event.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      onError={(e) => {
+                        e.target.src = logoNav;
+                      }}
+                    />
+                  </div>
 
-                {/* Event Info */}
-                <div className="p-6">
-                  <h3 className="text-white font-mono font-bold text-lg mb-2">
-                    {event.title}
-                  </h3>
-                  <p className="text-green-400 font-mono text-sm mb-3">
-                    {event.date}
-                  </p>
-                  <button
-                    onClick={() => openEventModal(event.id)}
-                    className="w-full bg-transparent border border-green-600 text-green-400 font-mono px-4 py-2 hover:bg-green-600 hover:text-black transition-all duration-300 cursor-pointer"
-                  >
-                    Saber más
-                  </button>
+                  {/* Event Info */}
+                  <div className="p-6">
+                    <h3 className="text-white font-mono font-bold text-lg mb-2">
+                      {event.title}
+                    </h3>
+                    <p className="text-green-400 font-mono text-sm mb-3">
+                      {event.date}
+                    </p>
+                    <button 
+                      onClick={() => openEventModal(event.id)}
+                      className="w-full bg-transparent border border-green-600 text-green-400 font-mono px-4 py-2 hover:bg-green-600 hover:text-black transition-all duration-300 cursor-pointer"
+                    >
+                      Saber más
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          {/* Hide scrollbar */}
-          <style>{`
-            .scrollbar-hide::-webkit-scrollbar {
-              display: none;
-            }
-          `}</style>
-
-          {/* Navigation Buttons (desktop only) */}
+          {/* Navigation Buttons */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-black border-2 border-green-600 hover:border-green-400 hover:bg-green-400/10 text-green-400 font-mono font-bold text-2xl w-12 h-12 hidden sm:flex items-center justify-center transition-all duration-300 z-10"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-black border-2 border-green-600 hover:border-green-400 hover:bg-green-400/10 text-green-400 font-mono font-bold text-2xl w-12 h-12 flex items-center justify-center transition-all duration-300 z-10"
           >
             &lt;
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-black border-2 border-green-600 hover:border-green-400 hover:bg-green-400/10 text-green-400 font-mono font-bold text-2xl w-12 h-12 hidden sm:flex items-center justify-center transition-all duration-300 z-10"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-black border-2 border-green-600 hover:border-green-400 hover:bg-green-400/10 text-green-400 font-mono font-bold text-2xl w-12 h-12 flex items-center justify-center transition-all duration-300 z-10"
           >
             &gt;
           </button>
         </div>
       </div>
 
-      {/* Modal usando Portal */}
+      {/* Modal usando Portal para renderizar fuera del DOM normal */}
       {selectedEvent && createPortal(
-        <div
+        <div 
           className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4"
           style={{ zIndex: 99999 }}
           onClick={closeModal}
         >
-          <div
+          <div 
             className="bg-black border-2 border-green-600 max-w-4xl w-full max-h-[90vh] overflow-y-auto relative [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             onClick={(e) => e.stopPropagation()}
           >
@@ -298,7 +270,7 @@ const EventsSection = () => {
                 {eventDetails.tags && eventDetails.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mb-6">
                     {eventDetails.tags.map((tag, index) => (
-                      <span
+                      <span 
                         key={index}
                         className="px-3 py-1 border border-green-600 text-green-400 font-mono text-sm"
                       >
@@ -325,12 +297,12 @@ const EventsSection = () => {
                       {eventDetails.complementaryImages.length > 1 && (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {eventDetails.complementaryImages.slice(0, -1).map((img, index) => (
-                            <div
-                              key={index}
+                            <div 
+                              key={index} 
                               className="border border-green-600 overflow-hidden"
                             >
-                              <img
-                                src={img}
+                              <img 
+                                src={img} 
                                 alt={`${eventDetails.name} - imagen ${index + 1}`}
                                 className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
                                 onError={(e) => {
@@ -341,13 +313,13 @@ const EventsSection = () => {
                           ))}
                         </div>
                       )}
-
-                      {/* Última imagen (cover) */}
+                      
+                      {/* Última imagen (cover) - Centrada y con borde ajustado */}
                       {eventDetails.complementaryImages.length > 0 && (
                         <div className="flex justify-center">
                           <div className="border border-green-600 overflow-hidden inline-block bg-black">
-                            <img
-                              src={eventDetails.complementaryImages[eventDetails.complementaryImages.length - 1]}
+                            <img 
+                              src={eventDetails.complementaryImages[eventDetails.complementaryImages.length - 1]} 
                               alt={`${eventDetails.name} - cover`}
                               className="max-h-96 object-contain hover:scale-105 transition-transform duration-300"
                               onError={(e) => {
@@ -365,8 +337,8 @@ const EventsSection = () => {
                 {eventDetails.status && (
                   <div className="mt-6 pt-6 border-t border-green-600">
                     <span className={`px-4 py-2 font-mono text-sm ${
-                      eventDetails.status === 'completed'
-                        ? 'bg-gray-800 text-gray-400 border border-gray-600'
+                      eventDetails.status === 'completed' 
+                        ? 'bg-gray-800 text-gray-400 border border-gray-600' 
                         : 'bg-green-900 bg-opacity-30 text-green-400 border border-green-600'
                     }`}>
                       {eventDetails.status === 'completed' ? 'Evento finalizado' : 'Próximamente'}
