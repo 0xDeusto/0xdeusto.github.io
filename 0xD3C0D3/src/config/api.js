@@ -12,5 +12,7 @@ export const API_ENDPOINTS = {
   eventsPast: `${API_BASE_URL}/events/past`,
   eventsUpcoming: `${API_BASE_URL}/events/upcoming`,
   server: `${API_BASE_URL}/server`,
-  all: `${API_BASE_URL}/all`
+  all: `${API_BASE_URL}/all`,
+  announcement: `${API_BASE_URL}/announcement`,
+  announcements: `${API_BASE_URL}/announcements`
 };

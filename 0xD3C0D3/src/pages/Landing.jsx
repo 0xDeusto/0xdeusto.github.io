@@ -5,6 +5,7 @@ import AboutSection from "../components/sections/AboutSection";
 import EventsSection from "../components/sections/EventsSection";
 import GallerySection from "../components/sections/GallerySection";
 import SectionEffects from "../components/landing/SectionEffects";
+import EventAnnouncement from "../components/landing/EventAnnouncement";
 import Footer from "../components/layout/Footer";
 
 function NewLanding2() {
@@ -21,6 +22,9 @@ function NewLanding2() {
 
   return (
     <div className={`w-full bg-black relative transition-all duration-1000`}>
+      {/* Anuncio de evento Summer School */}
+      <EventAnnouncement />
+
       {/* Secciones */}
       <div className="relative z-10">
         {/* Efectos visuales dinámicos para cada sección */}
