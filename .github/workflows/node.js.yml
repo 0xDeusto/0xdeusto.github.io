@@ -3,6 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches: [ "New-Design" ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
