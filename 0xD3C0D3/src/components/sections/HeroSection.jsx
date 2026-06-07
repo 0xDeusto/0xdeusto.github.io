@@ -10,6 +10,7 @@ const HeroSection = () => {
   const targetOffset = useRef({ x: 0, y: 0 });
   const [asciiArt, setAsciiArt] = useState('');
   const [backgroundAsccii, setBackgroundAscii] = useState('');
+  const [heroHeight, setHeroHeight] = useState('100vh');
 
   // Cargar ASCII art
   useEffect(() => {
@@ -26,6 +27,16 @@ const HeroSection = () => {
     fetch('/deusto-background-ascii.txt')
       .then(response => response.text())
       .then(text => setBackgroundAscii(text))
+  }, []);
+
+  // Altura exacta del viewport (evita problemas con 100vh en móvil)
+  useEffect(() => {
+    const updateHeight = () => {
+      setHeroHeight(`${window.innerHeight}px`);
+    };
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    return () => window.removeEventListener('resize', updateHeight);
   }, []);
 
   // Efecto de entrada con GSAP
@@ -75,7 +86,8 @@ const HeroSection = () => {
     <section 
       ref={heroRef}
       id="hero"
-      className="min-h-screen flex flex-col relative px-6 overflow-hidden"
+      className="flex flex-col relative px-6 overflow-hidden"
+      style={{ height: heroHeight }}
     >
       {/* Navbar */}
       <Navbar />
@@ -132,7 +144,7 @@ const HeroSection = () => {
       )}
 
       {/* Main content - a la izqueirda */}
-      <div className="flex-1 flex items-center z-10 relative pt-20">
+      <div className="flex-1 flex flex-col justify-center z-10 relative pt-10 sm:pt-20">
         <div className="max-w-4xl 
         sm:ml-40">
           {/* ASCII Art / Imagen móvil */}
