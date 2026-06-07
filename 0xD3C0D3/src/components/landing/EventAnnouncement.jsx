@@ -233,30 +233,32 @@ const EventAnnouncement = () => {
                   </div>
 
                   {/* Footer note */}
-                  <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-green-500/20">
-                    <p className="text-green-500/50 font-mono text-[9px] sm:text-xs text-center">
-                      [PLAZAS LIMITADAS] — NO ESPERES A QUE SE AGOTEN
-                    </p>
-                  </div>
+                  {announcement.footer_text && (
+                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-green-500/20">
+                      <p className="text-green-500/50 font-mono text-[9px] sm:text-xs text-center">
+                        {announcement.footer_text}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Right: main image */}
                 {mainImage && (
-                  <div className="lg:w-[380px] xl:w-[440px] flex-shrink-0 border-t lg:border-t-0 lg:border-l border-green-500/20 bg-green-950/10 relative">
+                  <div className="lg:w-[380px] xl:w-[440px] flex-shrink-0 border-t lg:border-t-0 lg:border-l border-green-500/20 bg-green-950/10 relative flex flex-col">
                     <div className="absolute top-3 left-3 sm:top-4 sm:left-4 w-6 h-6 sm:w-8 sm:h-8 border-t-2 border-l-2 border-green-400/50 z-10 pointer-events-none" />
                     <div className="absolute top-3 right-3 sm:top-4 sm:right-4 w-6 h-6 sm:w-8 sm:h-8 border-t-2 border-r-2 border-green-400/50 z-10 pointer-events-none" />
                     <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 w-6 h-6 sm:w-8 sm:h-8 border-b-2 border-l-2 border-green-400/50 z-10 pointer-events-none" />
                     <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 w-6 h-6 sm:w-8 sm:h-8 border-b-2 border-r-2 border-green-400/50 z-10 pointer-events-none" />
 
-                    <div className="p-3 sm:p-4 lg:p-6 flex flex-col justify-center">
+                    <div className="flex-1 min-h-0 p-3 sm:p-4 lg:p-6 flex flex-col justify-center">
                       <div
-                        className="relative overflow-hidden border border-green-500/30 group cursor-pointer"
+                        className="relative flex-1 overflow-hidden border border-green-500/30 group cursor-pointer min-h-0"
                         onClick={() => setSelectedImage(mainImage)}
                       >
                         <img
                           src={mainImage}
                           alt={announcement.title}
-                          className="w-full h-40 sm:h-48 lg:h-auto lg:max-h-[380px] object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                          className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                           draggable={false}
                         />
                         <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -266,7 +268,7 @@ const EventAnnouncement = () => {
                         </div>
                       </div>
 
-                      <div className="mt-2 sm:mt-3 flex items-center gap-2">
+                      <div className="mt-2 sm:mt-3 flex items-center gap-2 flex-shrink-0">
                         <div className="h-px flex-1 bg-green-500/20" />
                         <span className="text-green-500/40 font-mono text-[9px] sm:text-[10px] uppercase tracking-wider">
                           {announcement.title} 2025
