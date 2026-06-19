@@ -142,10 +142,9 @@ const HeroSection = () => {
         </div>
       )}
 
-      {/* Main content - a la izqueirda */}
-      <div className="flex-1 flex flex-col justify-center z-10 relative pt-10 sm:pt-20">
-        <div className="max-w-4xl 
-        sm:ml-40">
+      {/* Main content - centrado */}
+      <div className="flex-1 flex flex-col justify-center items-center z-10 relative pt-10 sm:pt-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           {/* ASCII Art / Imagen móvil */}
           <div className="mb-8">
             {/* Imagen en móvil (< sm) */}
@@ -174,7 +173,7 @@ const HeroSection = () => {
           </div>
 
           {/* Discord Button */}
-          <div className="flex">
+          <div className="flex justify-center">
             <a
               href="https://discord.gg/B6sdc2yDEP"
               target="_blank"
