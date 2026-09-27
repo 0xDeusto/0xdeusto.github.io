@@ -158,7 +158,7 @@ const Navbar = () => {
 
           {/* Discord Button - Desktop */}
           <a
-            href="https://discord.gg/B6sdc2yDEP"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSdIfOG4-Lao3NiW17Vdnct8v0pjyK2pSQAwq16VExGbPZTOMw/viewform?usp=dialog"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:flex items-center space-x-2 bg-green-600 hover:bg-green-500 text-black font-mono font-bold px-4 py-2 rounded transition-all duration-300"
@@ -251,7 +251,7 @@ const Navbar = () => {
                 );
               })}
               <a
-                href="https://discord.gg/B6sdc2yDEP"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSdIfOG4-Lao3NiW17Vdnct8v0pjyK2pSQAwq16VExGbPZTOMw/viewform?usp=dialog"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-500 text-black font-mono font-bold px-6 py-3 rounded transition-all duration-300 mt-4 w-full"

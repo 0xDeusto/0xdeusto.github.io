@@ -175,7 +175,7 @@ const HeroSection = () => {
           {/* Discord Button */}
           <div className="flex justify-center">
             <a
-              href="https://discord.gg/B6sdc2yDEP"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdIfOG4-Lao3NiW17Vdnct8v0pjyK2pSQAwq16VExGbPZTOMw/viewform?usp=dialog"
               target="_blank"
               rel="noopener noreferrer"
               className="group relative px-8 py-4 bg-transparent border-2 border-green-600 text-green-400 font-mono font-bold uppercase tracking-wider hover:bg-green-600 hover:text-black transition-all duration-300 overflow-hidden flex items-center space-x-3"
