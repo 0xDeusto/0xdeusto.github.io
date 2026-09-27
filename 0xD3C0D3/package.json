@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://0xdeusto.github.io",
+  "homepage": "https://0xdecode.es",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
