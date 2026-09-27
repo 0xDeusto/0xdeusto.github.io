@@ -22,7 +22,7 @@ const Navbar = () => {
     { label: 'Sobre Nosotros', section: 'about' },
     { label: 'Eventos', section: 'events' },
     { label: 'Summer School', href: '/cursos-de-verano/', external: true },
-    { label: 'Contactanos', mailto: '0xdecode@tutamail.com' }
+    { label: 'Contáctanos', mailto: '0xdecode@deusto.es' }
   ];
 
   const ExternalIcon = () => (
