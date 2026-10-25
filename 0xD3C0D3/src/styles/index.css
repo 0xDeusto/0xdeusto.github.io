@@ -184,6 +184,24 @@
   animation: float-fast 10s ease-in-out infinite; 
 }
 
-.float-slow-reverse { 
-  animation: float-slow-reverse 22s ease-in-out infinite; 
+.float-slow-reverse {
+  animation: float-slow-reverse 22s ease-in-out infinite;
+}
+
+/* Entrada de la ventana "Únete": responde al clic del usuario; se omite con "reducir movimiento" */
+@keyframes join-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .join-in {
+    animation: join-in 160ms ease-out;
+  }
 }
